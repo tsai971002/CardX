@@ -1,14 +1,26 @@
-# CardsX Frontend v4
+# CardsX Frontend v6
 
-更新：
-- 取消北中南實體合作驗卡中心
-- CardsX 驗證總部設定於高雄
-- 賣家成交後必須寄卡至總部驗證
-- 驗證通過顯示 CardsX Verified
-- 每張驗證實體卡建立唯一 CardsX ID
-- 每次成交自動產生新的隨機、不重複 Transaction ID
-- 最近成交紀錄新增：成交卡牌 / CardsX ID / 交易序號
-- 新增完整驗證流程 UI
-- 保留 Vault / Bid / Ask / 最近成交價 / 市場走勢
+新增會員註冊：
+- 註冊按鈕
+- 暱稱
+- Email
+- 台灣手機號碼
+- 密碼 / 確認密碼
+- 服務條款同意
+- 行銷通知選擇
+- 註冊後直接進入「我的 CardsX」
 
-正式後端需在資料庫對 Transaction ID 設 UNIQUE constraint，碰撞時自動重新生成。
+目前為 Prototype：
+- 不會真的把會員寫入資料庫
+- 尚未寄 Email 驗證信
+- 尚未發手機 OTP
+- 尚未做 Google / Apple Sign-in
+- 尚未做 KYC
+
+正式版建議：
+- Auth：Supabase Auth / Clerk / Auth0
+- Email Verification
+- SMS OTP
+- 2FA
+- KYC 狀態
+- Account Security / Login Sessions

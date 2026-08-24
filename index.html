@@ -61,6 +61,9 @@ footer{margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:v
    <div class="logo">Cards<span>X</span></div>
    <nav class="navlinks"><span>市場</span><span>卡牌圖鑑</span><span>系列</span><span>Vault</span><span>驗卡中心</span></nav>
    <input class="searchTop" placeholder="搜尋卡名 / Card No. / Set Code">
+   <button class="btn ghost" id="loginBtn" style="padding:10px 14px">登入</button>
+   <button class="btn primary" id="registerBtn" style="padding:10px 14px">註冊</button>
+   <button class="btn primary" id="playerBtn" style="padding:10px 14px;display:none">我的帳戶</button>
  </div>
 </header>
 
@@ -218,7 +221,93 @@ footer{margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:v
   </div>
  </section>
 
- <footer>CardsX Frontend Prototype v3 · 卡牌名稱與系列分類僅作產品介面示意；正式使用卡圖、商標與官方資料前需確認授權與資料使用權。</footer>
+
+ <section id="playerCenter" style="display:none">
+  <div class="sectionHead"><div><h2>我的 CardsX</h2><div class="muted">同一個市場介面，登入後直接管理買賣與資產</div></div></div>
+  <div class="discovery">
+   <div class="discover"><strong>我的收藏</strong><p>持有 8 張卡 · 目前市值 NT$ 42,680</p><button class="btn ghost">查看收藏</button></div>
+   <div class="discover"><strong>我的掛單</strong><p>Bid 2 筆 · Ask 3 筆</p><button class="btn ghost">管理掛單</button></div>
+   <div class="discover"><strong>我的成交</strong><p>最近 30 日成交 6 筆</p><button class="btn ghost">交易紀錄</button></div>
+   <div class="discover"><strong>CardsX Vault</strong><p>Vault 內 5 張 · 可直接再次掛售</p><button class="btn ghost">開啟 Vault</button></div>
+  </div>
+ </section>
+
+ <section>
+  <div class="sectionHead"><div><h2>CardsX 即時成交</h2><div class="muted">新交易完成後，自動同步到所有在線玩家</div></div><span class="badge">LIVE · 約 1–5 秒更新</span></div>
+  <div class="panel sales">
+   <div id="liveStatus" class="muted" style="font-size:12px;margin-bottom:8px">● 即時連線中</div>
+   <div style="overflow-x:auto">
+    <table style="min-width:840px">
+      <thead><tr><th>時間</th><th>成交卡牌</th><th>價格</th><th>漲跌</th><th>CardsX ID</th><th>交易序號</th></tr></thead>
+      <tbody id="liveTrades">
+       <tr><td>14:13:41</td><td><b>阿璃－誘人</b><br><span class="muted">Origins · 異畫</span></td><td>NT$ 8,280</td><td class="up">+1.47%</td><td>CX-CARD-A7K9M2Q4</td><td>CX-TX-7K4P9M2XQ8</td></tr>
+       <tr><td>14:12:08</td><td><b>犽宿－御風者</b><br><span class="muted">Spiritforged · 史詩</span></td><td>NT$ 4,650</td><td class="up">+0.86%</td><td>CX-CARD-F2N8R6W1</td><td>CX-TX-R8N3W6H5ZT</td></tr>
+       <tr><td>14:10:32</td><td><b>吉茵珂絲－爆破專家</b><br><span class="muted">Unleashed · 異畫</span></td><td>NT$ 6,920</td><td class="down">-0.44%</td><td>CX-CARD-M5Q3T8V7</td><td>CX-TX-2VQ7F9J4KC</td></tr>
+      </tbody>
+    </table>
+   </div>
+  </div>
+ </section>
+
+ <div id="loginModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:80;align-items:center;justify-content:center;padding:20px">
+   <div class="panel" style="width:min(430px,100%);padding:22px">
+     <h3 style="margin-top:0">登入 CardsX</h3>
+     <p class="muted">Prototype 示範：正式版可串 Email、手機簡訊、Google / Apple 登入。</p>
+     <input class="control" id="loginEmail" placeholder="Email 或手機號碼" style="margin-bottom:10px">
+     <input class="control" id="loginPass" placeholder="密碼" type="password" style="margin-bottom:14px">
+     <div style="display:flex;gap:10px;justify-content:flex-end">
+       <button class="btn ghost" id="cancelLogin">取消</button>
+       <button class="btn primary" id="confirmLogin">登入</button>
+     </div>
+   </div>
+ </div>
+
+ <div id="registerModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:81;align-items:center;justify-content:center;padding:20px">
+   <div class="panel" style="width:min(520px,100%);padding:24px;max-height:90%;overflow:auto">
+     <div style="display:flex;justify-content:space-between;gap:12px;align-items:start">
+       <div><div class="eyebrow">CARDSX MEMBER</div><h3 style="margin:6px 0 4px">建立 CardsX 帳戶</h3><p class="muted" style="margin-top:0">註冊後即可買入、出價、掛 Ask、管理 Vault 與追蹤交易。</p></div>
+       <button class="btn ghost" id="closeRegister" style="padding:8px 10px">✕</button>
+     </div>
+
+     <form id="registerForm">
+       <label class="muted" style="font-size:12px">暱稱</label>
+       <input class="control" id="regNickname" placeholder="例如：RuneTrader88" required style="margin:6px 0 12px">
+
+       <label class="muted" style="font-size:12px">Email</label>
+       <input class="control" id="regEmail" type="email" placeholder="name@example.com" required style="margin:6px 0 12px">
+
+       <label class="muted" style="font-size:12px">手機號碼</label>
+       <input class="control" id="regPhone" inputmode="tel" placeholder="09xxxxxxxx" required style="margin:6px 0 12px">
+
+       <label class="muted" style="font-size:12px">密碼</label>
+       <input class="control" id="regPassword" type="password" placeholder="至少 8 碼" minlength="8" required style="margin:6px 0 12px">
+
+       <label class="muted" style="font-size:12px">確認密碼</label>
+       <input class="control" id="regPassword2" type="password" placeholder="再次輸入密碼" minlength="8" required style="margin:6px 0 12px">
+
+       <label style="display:flex;gap:10px;align-items:flex-start;margin:4px 0 12px;font-size:13px">
+         <input id="agreeTerms" type="checkbox" required style="margin-top:3px">
+         <span>我同意 CardsX 服務條款與隱私權政策，並了解交易卡牌需遵守平台驗證與退款規則。</span>
+       </label>
+
+       <label style="display:flex;gap:10px;align-items:flex-start;margin-bottom:16px;font-size:13px">
+         <input id="agreeMarketing" type="checkbox" style="margin-top:3px">
+         <span>我願意接收價格提醒、熱門卡牌與 CardsX 活動通知。</span>
+       </label>
+
+       <div id="registerMsg" class="muted" style="font-size:12px;min-height:18px;margin-bottom:10px"></div>
+
+       <button class="btn primary" type="submit" style="width:100%;padding:14px">建立帳戶</button>
+     </form>
+
+     <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--line);text-align:center;font-size:13px">
+       <span class="muted">已經有帳戶？</span>
+       <button class="btn ghost" id="switchToLogin" style="padding:7px 10px;margin-left:6px">登入</button>
+     </div>
+   </div>
+ </div>
+
+ <footer>CardsX Frontend Prototype v6 · 卡牌名稱與系列分類僅作產品介面示意；正式使用卡圖、商標與官方資料前需確認授權與資料使用權。</footer>
 </main>
 <script>
 (()=>{
@@ -236,6 +325,85 @@ footer{margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:v
    chips.forEach(x=>x.classList.remove('active'));ch.classList.add('active');
    setFilter.value=ch.dataset.set;apply();
  }));
+
+ // Login / player center prototype
+ const loginBtn=document.getElementById('loginBtn');
+ const registerBtn=document.getElementById('registerBtn');
+ const playerBtn=document.getElementById('playerBtn');
+ const modal=document.getElementById('loginModal');
+ const registerModal=document.getElementById('registerModal');
+ const playerCenter=document.getElementById('playerCenter');
+
+ function setLoggedIn(nickname='CardsX 玩家'){
+   modal.style.display='none';
+   registerModal.style.display='none';
+   loginBtn.style.display='none';
+   registerBtn.style.display='none';
+   playerBtn.style.display='inline-block';
+   playerBtn.textContent=nickname;
+   playerCenter.style.display='block';
+ }
+
+ loginBtn.addEventListener('click',()=>modal.style.display='flex');
+ registerBtn.addEventListener('click',()=>registerModal.style.display='flex');
+ document.getElementById('cancelLogin').addEventListener('click',()=>modal.style.display='none');
+ document.getElementById('closeRegister').addEventListener('click',()=>registerModal.style.display='none');
+
+ document.getElementById('confirmLogin').addEventListener('click',()=>{
+   setLoggedIn('我的帳戶');
+   playerCenter.scrollIntoView({behavior:'smooth'});
+ });
+
+ document.getElementById('switchToLogin').addEventListener('click',()=>{
+   registerModal.style.display='none';
+   modal.style.display='flex';
+ });
+
+ document.getElementById('registerForm').addEventListener('submit',(e)=>{
+   e.preventDefault();
+   const nickname=document.getElementById('regNickname').value.trim();
+   const email=document.getElementById('regEmail').value.trim();
+   const phone=document.getElementById('regPhone').value.trim();
+   const p1=document.getElementById('regPassword').value;
+   const p2=document.getElementById('regPassword2').value;
+   const msg=document.getElementById('registerMsg');
+
+   if(!nickname){msg.textContent='請輸入暱稱。';return;}
+   if(!/^\S+@\S+\.\S+$/.test(email)){msg.textContent='請輸入有效 Email。';return;}
+   if(!/^09\d{8}$/.test(phone)){msg.textContent='台灣手機號碼格式應為 09xxxxxxxx。';return;}
+   if(p1.length<8){msg.textContent='密碼至少需要 8 碼。';return;}
+   if(p1!==p2){msg.textContent='兩次輸入的密碼不一致。';return;}
+   if(!document.getElementById('agreeTerms').checked){msg.textContent='請先同意服務條款與隱私權政策。';return;}
+
+   msg.textContent='註冊成功（Prototype）';
+   setTimeout(()=>{
+     setLoggedIn(nickname);
+     playerCenter.scrollIntoView({behavior:'smooth'});
+   },500);
+ });
+
+ playerBtn.addEventListener('click',()=>playerCenter.scrollIntoView({behavior:'smooth'}));
+
+ // Live trade feed prototype. Formal version should receive backend realtime events.
+ const live=document.getElementById('liveTrades');
+ const demoTrades=[
+   {card:'易大師－無極劍聖',set:'VEN · 稀有',price:2210,chg:'+1.38%',cls:'up',cid:'CX-CARD-K4P8N2L7',tx:'CX-TX-Q7M4R9X2BD'},
+   {card:'阿璃－誘人',set:'Origins · 異畫',price:8340,chg:'+0.72%',cls:'up',cid:'CX-CARD-A7K9M2Q4',tx:'CX-TX-H8V3K6P9ZM'},
+   {card:'吉茵珂絲－爆破專家',set:'Unleashed · 異畫',price:6880,chg:'-0.58%',cls:'down',cid:'CX-CARD-R6T2W9C4',tx:'CX-TX-N5B8Q3L7XC'},
+   {card:'犽宿－御風者',set:'Spiritforged · 史詩',price:4720,chg:'+1.51%',cls:'up',cid:'CX-CARD-D9M4H2F8',tx:'CX-TX-Z3K7V5R2NW'}
+ ];
+ let i=0;
+ function addTrade(){
+   const t=demoTrades[i%demoTrades.length]; i++;
+   const now=new Date().toLocaleTimeString('zh-TW',{hour12:false});
+   const tr=document.createElement('tr');
+   tr.innerHTML=`<td>${now}</td><td><b>${t.card}</b><br><span class="muted">${t.set}</span></td><td>NT$ ${t.price.toLocaleString()}</td><td class="${t.cls}">${t.chg}</td><td>${t.cid}</td><td>${t.tx}</td>`;
+   live.prepend(tr);
+   while(live.children.length>8) live.removeChild(live.lastElementChild);
+   tr.style.background='rgba(36,201,138,.08)';
+   setTimeout(()=>tr.style.background='',1200);
+ }
+ setInterval(addTrade,7000);
 })();
 </script>
 </body>
