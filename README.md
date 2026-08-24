@@ -1,26 +1,25 @@
-# CardsX Frontend v6
+# CardsX Frontend v8
 
-新增會員註冊：
-- 註冊按鈕
-- 暱稱
-- Email
-- 台灣手機號碼
-- 密碼 / 確認密碼
-- 服務條款同意
-- 行銷通知選擇
-- 註冊後直接進入「我的 CardsX」
+新增完整購物流程 Prototype：
+- 購物車按鈕與數量
+- 加入購物車
+- 商品數量增加 / 減少 / 移除
+- 訂單摘要
+- 結帳頁
+- 收件人姓名 / 手機 / Email
+- 宅配地址
+- 7-ELEVEN 店到店欄位
+- 蝦皮店到店欄位
+- 配送運費動態更新
+- 付款方式
+- Prototype 訂單編號
 
-目前為 Prototype：
-- 不會真的把會員寫入資料庫
-- 尚未寄 Email 驗證信
-- 尚未發手機 OTP
-- 尚未做 Google / Apple Sign-in
-- 尚未做 KYC
-
-正式版建議：
-- Auth：Supabase Auth / Clerk / Auth0
-- Email Verification
-- SMS OTP
-- 2FA
-- KYC 狀態
-- Account Security / Login Sessions
+正式版還需串接：
+- 7-ELEVEN / 統一超商可用物流 API 或合作物流
+- 蝦皮店到店合作物流能力（依當時對外 API / 商務方案）
+- 金流
+- 真實庫存
+- 訂單資料庫
+- 地址驗證
+- 電子發票
+- 物流追蹤

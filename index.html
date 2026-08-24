@@ -50,18 +50,49 @@ h1{font-size:40px;letter-spacing:-1.5px;margin:8px 0}.sub{color:var(--muted);lin
 .bottomGrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.box{padding:20px}.badge{display:inline-block;font-size:11px;padding:5px 7px;background:var(--chip);border-radius:999px;color:var(--muted)}
 .centerList{display:grid;gap:10px}.center{padding:13px;background:#0d1115;border:1px solid var(--line);border-radius:12px;display:flex;justify-content:space-between;gap:10px}
 footer{margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}
-@media(max-width:1050px){.filters{grid-template-columns:repeat(3,1fr)}.hotGrid{grid-template-columns:repeat(2,1fr)}.catalog,.discovery{grid-template-columns:repeat(2,1fr)}}
+
+.shopHero{display:flex;justify-content:space-between;gap:18px;align-items:center;padding:22px;margin-bottom:14px}
+.shopGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.productCard{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.productVisual{height:150px;background:linear-gradient(145deg,#202732,#0d1115);display:grid;place-items:center;font-size:52px;border-bottom:1px solid var(--line)}
+.productBody{padding:15px}.productType{font-size:11px;color:var(--muted);letter-spacing:.8px}.productTitle{font-weight:900;font-size:17px;margin:5px 0}.productMeta{font-size:12px;color:var(--muted);min-height:34px}.productBottom{display:flex;justify-content:space-between;align-items:end;gap:10px;margin-top:13px}.productPrice{font-size:20px;font-weight:950}.stock{font-size:11px;color:var(--green)}
+.pagePanel{display:none}.pagePanel.active{display:block}
+
+
+.cartPage{display:none;margin-top:24px}
+.cartPage.active{display:block}
+.cartGrid{display:grid;grid-template-columns:1.25fr .75fr;gap:16px}
+.cartItem{display:grid;grid-template-columns:72px 1fr auto;gap:14px;align-items:center;padding:14px;border-bottom:1px solid var(--line)}
+.cartItem:last-child{border-bottom:0}
+.cartThumb{width:72px;height:82px;border-radius:10px;background:linear-gradient(145deg,#222a34,#101318);display:grid;place-items:center;font-size:30px}
+.qty{display:flex;align-items:center;gap:8px}.qty button{width:32px;height:32px;border-radius:8px;border:1px solid var(--line);background:var(--panel2);color:white}
+.summaryRow{display:flex;justify-content:space-between;gap:12px;padding:9px 0}.summaryRow.total{font-size:21px;font-weight:900;border-top:1px solid var(--line);margin-top:8px;padding-top:14px}
+.checkoutGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.checkoutGrid .full{grid-column:1/-1}
+.deliveryCards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px}
+.deliveryCard{border:1px solid var(--line);background:#0d1115;border-radius:12px;padding:13px;cursor:pointer}.deliveryCard.active{border-color:white}
+.notice{padding:12px;border:1px solid var(--line);border-radius:12px;background:#0d1115;color:var(--muted);font-size:12px;line-height:1.5}
+@media(max-width:850px){.cartGrid{grid-template-columns:1fr}.deliveryCards{grid-template-columns:1fr}.checkoutGrid{grid-template-columns:1fr}.checkoutGrid .full{grid-column:auto}}
+
+@media(max-width:1050px){.filters{grid-template-columns:repeat(3,1fr)}.hotGrid{grid-template-columns:repeat(2,1fr)}.catalog,.discovery,.shopGrid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:850px){.hero,.marketGrid,.bottomGrid{grid-template-columns:1fr}.searchTop,.navlinks{display:none}.actionRow{grid-template-columns:1fr 1fr}}
-@media(max-width:560px){.wrap{padding-left:13px;padding-right:13px}.filters{grid-template-columns:1fr}.hotGrid,.catalog,.discovery{grid-template-columns:1fr}.index{font-size:36px}.tradeTop{display:block}.tradeTop>div:last-child{text-align:left!important;margin-top:15px}.actionRow{grid-template-columns:1fr}}
+@media(max-width:560px){.wrap{padding-left:13px;padding-right:13px}.filters{grid-template-columns:1fr}.hotGrid,.catalog,.discovery,.shopGrid{grid-template-columns:1fr}.index{font-size:36px}.tradeTop{display:block}.tradeTop>div:last-child{text-align:left!important;margin-top:15px}.actionRow{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <header class="top">
  <div class="nav">
    <div class="logo">Cards<span>X</span></div>
-   <nav class="navlinks"><span>市場</span><span>卡牌圖鑑</span><span>系列</span><span>Vault</span><span>驗卡中心</span></nav>
+   <nav class="navlinks">
+<a href="#market" style="color:inherit;text-decoration:none">市場</a>
+<a href="#catalog" style="color:inherit;text-decoration:none">卡牌圖鑑</a>
+<a href="#series" style="color:inherit;text-decoration:none">系列</a>
+<a href="#officialShop" style="color:inherit;text-decoration:none">官方未開封</a>
+<a href="#vault" style="color:inherit;text-decoration:none">Vault</a>
+<a href="#verify" style="color:inherit;text-decoration:none">驗卡中心</a>
+</nav>
    <input class="searchTop" placeholder="搜尋卡名 / Card No. / Set Code">
    <button class="btn ghost" id="loginBtn" style="padding:10px 14px">登入</button>
+   <button class="btn ghost" id="cartBtn" style="padding:10px 14px">購物車 <span id="cartCount">0</span></button>
    <button class="btn primary" id="registerBtn" style="padding:10px 14px">註冊</button>
    <button class="btn primary" id="playerBtn" style="padding:10px 14px;display:none">我的帳戶</button>
  </div>
@@ -76,7 +107,7 @@ footer{margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:v
    <div class="tick"><small>24H 成交額</small><b>NT$ 286,420</b></div>
  </div>
 
- <section class="hero">
+ <section class="hero" id="market">
    <div class="panel heroMain">
      <div class="eyebrow">CARDSX · RIFTBOUND MARKET</div>
      <h1>符文戰場卡牌市場</h1>
@@ -95,7 +126,7 @@ footer{margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:v
    </div>
  </section>
 
- <section>
+ <section id="catalog">
    <div class="sectionHead"><div><h2>找卡牌</h2><div class="muted">遊戲 → 系列 → 稀有度 → 顏色 → 卡牌類型</div></div></div>
    <div class="filters">
      <select class="control"><option>符文戰場 Riftbound</option></select>
@@ -179,7 +210,7 @@ footer{margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:v
   </div>
  </section>
 
- <section>
+ <section id="series">
   <div class="sectionHead"><div><h2>依系列瀏覽</h2><div class="muted">未來新系列只要後台新增，不需重做網站</div></div></div>
   <div class="catalog">
    <div class="catalogCard"><b>起源 Origins</b><span>364 張 · 首發核心系列</span></div>
@@ -216,11 +247,114 @@ footer{margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:v
  <section>
   <div class="sectionHead"><div><h2>實體交易服務</h2></div></div>
   <div class="bottomGrid">
-   <div class="panel box"><h3>CardsX Vault</h3><p class="muted">驗證後可存入 CardsX Vault，持有人可繼續掛 Ask 或接受 Bid；成交時不需要反覆寄送實體卡。</p><span class="badge">保管 · 轉售 · 提領</span></div>
-   <div class="panel box"><h3>CardsX 高雄驗證總部</h3><p class="muted">所有成交卡牌由賣家寄至 CardsX 高雄總部。驗證通過後建立唯一 CardsX ID，並加上 ✓ CardsX Verified 徽章，再由買家選擇寄送或存入 Vault。</p><div class="centerList"><div class="center"><span>驗證流程</span><span class="muted">已收件 → 驗證中 → Verified</span></div><div class="center"><span>驗證地點</span><span class="muted">高雄市 · CardsX 總部</span></div><div class="center"><span>未通過</span><span class="muted">取消交易 · 退款 · 退卡</span></div></div></div>
+   <div class="panel box" id="vault"><h3>CardsX Vault</h3><p class="muted">驗證後可存入 CardsX Vault，持有人可繼續掛 Ask 或接受 Bid；成交時不需要反覆寄送實體卡。</p><span class="badge">保管 · 轉售 · 提領</span></div>
+   <div class="panel box" id="verify"><h3>CardsX 高雄驗證總部</h3><p class="muted">所有成交卡牌由賣家寄至 CardsX 高雄總部。驗證通過後建立唯一 CardsX ID，並加上 ✓ CardsX Verified 徽章，再由買家選擇寄送或存入 Vault。</p><div class="centerList"><div class="center"><span>驗證流程</span><span class="muted">已收件 → 驗證中 → Verified</span></div><div class="center"><span>驗證地點</span><span class="muted">高雄市 · CardsX 總部</span></div><div class="center"><span>未通過</span><span class="muted">取消交易 · 退款 · 退卡</span></div></div></div>
   </div>
  </section>
 
+
+ 
+ <section id="officialShop">
+  <div class="sectionHead"><div><h2>CardsX 官方未開封專區</h2><div class="muted">補充包、補充盒、預組牌組與入門套裝。這一區與玩家二手市場分開。</div></div><span class="badge">SEALED PRODUCTS</span></div>
+
+  <div class="panel shopHero">
+    <div><div class="eyebrow">FROM OFFICIAL / AUTHORIZED SUPPLY</div><h2 style="margin:6px 0">直接買全新未開封卡牌商品</h2><div class="muted">玩家可以買單卡，也可以直接購買原廠／授權供應來源的未開封商品。正式營運時會標示實際供應商、庫存與出貨資訊。</div></div>
+    <button class="btn primary" id="shopAllBtn">查看全部商品</button>
+  </div>
+
+  <div class="seriesChips" id="shopFilters">
+    <button class="chip active" data-shop="all">全部</button>
+    <button class="chip" data-shop="booster">補充包</button>
+    <button class="chip" data-shop="box">補充盒</button>
+    <button class="chip" data-shop="deck">預組牌組</button>
+    <button class="chip" data-shop="starter">入門套裝</button>
+  </div>
+
+  <div class="shopGrid" id="shopGrid">
+    <article class="productCard" data-shop="box"><div class="productVisual">📦</div><div class="productBody"><div class="productType">ORIGINS · BOOSTER DISPLAY</div><div class="productTitle">Origins 補充盒</div><div class="productMeta">24 包補充包 · 全新未開封</div><div class="productBottom"><div><div class="stock">● 可購買</div><div class="productPrice">NT$ 3,980</div></div><button class="btn primary buySealed" data-name="Origins 補充盒">購買</button></div></div></article>
+    <article class="productCard" data-shop="booster"><div class="productVisual">🃏</div><div class="productBody"><div class="productType">ORIGINS · BOOSTER PACK</div><div class="productTitle">Origins 補充包</div><div class="productMeta">單包 · 14 張卡 · 全新未開封</div><div class="productBottom"><div><div class="stock">● 可購買</div><div class="productPrice">NT$ 180</div></div><button class="btn primary buySealed" data-name="Origins 補充包">購買</button></div></div></article>
+    <article class="productCard" data-shop="deck"><div class="productVisual">⚔️</div><div class="productBody"><div class="productType">CHAMPION DECK</div><div class="productTitle">Origins Champion Deck</div><div class="productMeta">預組牌組 · 開盒即可遊玩</div><div class="productBottom"><div><div class="stock">● 可購買</div><div class="productPrice">NT$ 690</div></div><button class="btn primary buySealed" data-name="Origins Champion Deck">購買</button></div></div></article>
+    <article class="productCard" data-shop="starter"><div class="productVisual">🏟️</div><div class="productBody"><div class="productType">PROVING GROUNDS</div><div class="productTitle">Proving Grounds</div><div class="productMeta">2–4 人入門盒裝套裝</div><div class="productBottom"><div><div class="stock">● 可購買</div><div class="productPrice">NT$ 1,490</div></div><button class="btn primary buySealed" data-name="Proving Grounds">購買</button></div></div></article>
+  </div>
+  <p class="muted" style="font-size:11px;margin-top:10px">※ 上述價格為 CardsX 介面 Prototype 示意，並非 Riot 官方售價或即時庫存。</p>
+ </section>
+
+ 
+ <section id="cartPage" class="cartPage">
+  <div class="sectionHead"><div><h2>購物車</h2><div class="muted">確認商品後進入配送與付款資料</div></div><button class="btn ghost" id="continueShopping">繼續購物</button></div>
+  <div class="cartGrid">
+   <div class="panel">
+    <div id="cartItems">
+      <div class="muted" id="emptyCart" style="padding:26px">購物車目前沒有商品。</div>
+    </div>
+   </div>
+   <div class="panel box">
+    <h3 style="margin-top:0">訂單摘要</h3>
+    <div class="summaryRow"><span class="muted">商品小計</span><b id="subtotal">NT$ 0</b></div>
+    <div class="summaryRow"><span class="muted">運費</span><b id="shippingFee">NT$ 0</b></div>
+    <div class="summaryRow"><span class="muted">平台／處理費</span><b>NT$ 0</b></div>
+    <div class="summaryRow total"><span>應付總額</span><span id="grandTotal">NT$ 0</span></div>
+    <button class="btn primary" id="checkoutBtn" style="width:100%;margin-top:14px">前往結帳</button>
+   </div>
+  </div>
+ </section>
+
+ <section id="checkoutPage" class="cartPage">
+  <div class="sectionHead"><div><h2>結帳</h2><div class="muted">填寫收件與配送資料</div></div><button class="btn ghost" id="backToCart">返回購物車</button></div>
+  <div class="cartGrid">
+   <div class="panel box">
+    <h3 style="margin-top:0">收件人資料</h3>
+    <form id="checkoutForm">
+      <div class="checkoutGrid">
+       <div><label class="muted" style="font-size:12px">收件人姓名</label><input class="control" id="receiverName" required placeholder="王小明"></div>
+       <div><label class="muted" style="font-size:12px">手機號碼</label><input class="control" id="receiverPhone" required placeholder="09xxxxxxxx"></div>
+       <div class="full"><label class="muted" style="font-size:12px">Email</label><input class="control" id="receiverEmail" type="email" required placeholder="name@example.com"></div>
+      </div>
+
+      <h3>配送方式</h3>
+      <div class="deliveryCards" id="deliveryCards">
+       <div class="deliveryCard active" data-method="home" data-fee="80"><b>宅配到府</b><div class="muted">NT$80 · 填寫完整地址</div></div>
+       <div class="deliveryCard" data-method="seven" data-fee="60"><b>7‑ELEVEN 店到店</b><div class="muted">NT$60 · 正式版串接門市選擇</div></div>
+       <div class="deliveryCard" data-method="shopee" data-fee="60"><b>蝦皮店到店</b><div class="muted">NT$60 · 正式版串接合作物流</div></div>
+      </div>
+
+      <div id="homeFields" style="margin-top:14px">
+       <div class="checkoutGrid">
+        <div><label class="muted" style="font-size:12px">縣市</label><select class="control"><option>高雄市</option><option>台北市</option><option>台中市</option><option>新北市</option><option>台南市</option></select></div>
+        <div><label class="muted" style="font-size:12px">區域</label><input class="control" placeholder="例如：前鎮區"></div>
+        <div class="full"><label class="muted" style="font-size:12px">完整地址</label><input class="control" placeholder="路／街、門牌、樓層"></div>
+       </div>
+      </div>
+
+      <div id="storeFields" style="display:none;margin-top:14px">
+        <div class="notice">Prototype 目前先呈現門市取貨欄位。正式版需要串接 7‑ELEVEN / 蝦皮店到店可用的官方或合作物流服務，讓使用者在地圖／門市清單選店。</div>
+        <div class="checkoutGrid" style="margin-top:10px">
+         <div><label class="muted" style="font-size:12px">門市名稱</label><input class="control" placeholder="例如：高雄 XX 門市"></div>
+         <div><label class="muted" style="font-size:12px">門市店號</label><input class="control" placeholder="門市代碼"></div>
+        </div>
+      </div>
+
+      <h3>付款方式</h3>
+      <select class="control" id="paymentMethod">
+       <option>信用卡</option>
+       <option>ATM / 銀行轉帳</option>
+       <option>Apple Pay（正式版串接）</option>
+      </select>
+
+      <label style="display:flex;gap:10px;align-items:flex-start;margin:14px 0;font-size:13px">
+       <input type="checkbox" required style="margin-top:3px">
+       <span>我確認收件資訊正確，並同意 CardsX 訂單、退款及配送規則。</span>
+      </label>
+      <button class="btn primary" type="submit" style="width:100%;padding:14px">確認下單</button>
+    </form>
+   </div>
+   <div class="panel box">
+    <h3 style="margin-top:0">訂單摘要</h3>
+    <div id="checkoutSummary" class="muted" style="font-size:13px;line-height:1.7">尚未加入商品。</div>
+    <div class="summaryRow total"><span>應付總額</span><span id="checkoutTotal">NT$ 0</span></div>
+   </div>
+  </div>
+ </section>
 
  <section id="playerCenter" style="display:none">
   <div class="sectionHead"><div><h2>我的 CardsX</h2><div class="muted">同一個市場介面，登入後直接管理買賣與資產</div></div></div>
@@ -248,6 +382,15 @@ footer{margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:v
    </div>
   </div>
  </section>
+
+ 
+ <div id="purchaseModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:82;align-items:center;justify-content:center;padding:20px">
+  <div class="panel" style="width:min(460px,100%);padding:23px">
+   <div class="eyebrow">CARDSX SEALED SHOP</div><h3 id="purchaseTitle" style="margin:7px 0">購買商品</h3>
+   <p class="muted">商品會加入 CardsX 購物車，之後可統一填寫配送方式、收件地址與付款資料。</p>
+   <div style="display:flex;gap:9px;justify-content:flex-end"><button class="btn ghost" id="cancelPurchase">取消</button><button class="btn primary" id="demoCheckout">加入購物車</button></div>
+  </div>
+ </div>
 
  <div id="loginModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:80;align-items:center;justify-content:center;padding:20px">
    <div class="panel" style="width:min(430px,100%);padding:22px">
@@ -307,7 +450,7 @@ footer{margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:v
    </div>
  </div>
 
- <footer>CardsX Frontend Prototype v6 · 卡牌名稱與系列分類僅作產品介面示意；正式使用卡圖、商標與官方資料前需確認授權與資料使用權。</footer>
+ <footer>CardsX Frontend Prototype v8 · 卡牌名稱與系列分類僅作產品介面示意；正式使用卡圖、商標與官方資料前需確認授權與資料使用權。</footer>
 </main>
 <script>
 (()=>{
@@ -403,7 +546,112 @@ footer{margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:v
    tr.style.background='rgba(36,201,138,.08)';
    setTimeout(()=>tr.style.background='',1200);
  }
+
  setInterval(addTrade,7000);
+
+ // Official sealed shop filters
+ const shopCards=[...document.querySelectorAll('#shopGrid .productCard')];
+ const shopChips=[...document.querySelectorAll('#shopFilters .chip')];
+ shopChips.forEach(ch=>ch.addEventListener('click',()=>{
+   shopChips.forEach(x=>x.classList.remove('active')); ch.classList.add('active');
+   const type=ch.dataset.shop;
+   shopCards.forEach(c=>c.style.display=(type==='all'||c.dataset.shop===type)?'block':'none');
+ }));
+ document.getElementById('shopAllBtn').addEventListener('click',()=>{
+   shopChips.forEach(x=>x.classList.remove('active')); shopChips[0].classList.add('active');
+   shopCards.forEach(c=>c.style.display='block');
+   document.getElementById('shopGrid').scrollIntoView({behavior:'smooth'});
+ });
+
+ // Sealed product purchase prototype
+ const purchaseModal=document.getElementById('purchaseModal');
+ document.querySelectorAll('.buySealed').forEach(btn=>btn.addEventListener('click',()=>{
+   document.getElementById('purchaseTitle').textContent='購買：'+btn.dataset.name;
+   purchaseModal.style.display='flex';
+ }));
+ document.getElementById('cancelPurchase').addEventListener('click',()=>purchaseModal.style.display='none');
+
+ let pendingProduct=null;
+ const cart=[];
+ const priceMap={
+  'Origins 補充盒':3980,
+  'Origins 補充包':180,
+  'Origins Champion Deck':690,
+  'Proving Grounds':1490
+ };
+ document.querySelectorAll('.buySealed').forEach(btn=>{
+   btn.addEventListener('click',()=>{pendingProduct=btn.dataset.name;});
+ });
+ function renderCart(){
+   const items=document.getElementById('cartItems');
+   const empty=document.getElementById('emptyCart');
+   [...items.querySelectorAll('.cartItem')].forEach(x=>x.remove());
+   let subtotal=0,count=0;
+   cart.forEach((item,idx)=>{
+     subtotal+=item.price*item.qty;count+=item.qty;
+     const row=document.createElement('div');row.className='cartItem';
+     row.innerHTML=`<div class="cartThumb">📦</div><div><b>${item.name}</b><div class="muted" style="font-size:12px">全新未開封</div><div class="qty" style="margin-top:8px"><button type="button" data-act="minus" data-i="${idx}">−</button><b>${item.qty}</b><button type="button" data-act="plus" data-i="${idx}">＋</button><button type="button" data-act="remove" data-i="${idx}" class="btn ghost" style="padding:6px 9px;margin-left:6px">移除</button></div></div><b>NT$ ${(item.price*item.qty).toLocaleString()}</b>`;
+     items.appendChild(row);
+   });
+   empty.style.display=cart.length?'none':'block';
+   document.getElementById('cartCount').textContent=count;
+   document.getElementById('subtotal').textContent='NT$ '+subtotal.toLocaleString();
+   const fee=cart.length?currentShippingFee:0;
+   document.getElementById('shippingFee').textContent='NT$ '+fee.toLocaleString();
+   document.getElementById('grandTotal').textContent='NT$ '+(subtotal+fee).toLocaleString();
+   document.getElementById('checkoutTotal').textContent='NT$ '+(subtotal+fee).toLocaleString();
+   document.getElementById('checkoutSummary').innerHTML=cart.length?cart.map(x=>`${x.name} × ${x.qty}　NT$ ${(x.price*x.qty).toLocaleString()}`).join('<br>'):'尚未加入商品。';
+ }
+ document.getElementById('demoCheckout').addEventListener('click',()=>{
+   purchaseModal.style.display='none';
+   const name=pendingProduct||'Origins 補充包';
+   const found=cart.find(x=>x.name===name);
+   if(found) found.qty++; else cart.push({name,price:priceMap[name]||0,qty:1});
+   renderCart();
+   document.getElementById('cartPage').classList.add('active');
+   document.getElementById('cartPage').scrollIntoView({behavior:'smooth'});
+ });
+ document.getElementById('cartItems').addEventListener('click',e=>{
+   const b=e.target.closest('button[data-act]');if(!b)return;
+   const i=Number(b.dataset.i); if(!cart[i])return;
+   if(b.dataset.act==='plus')cart[i].qty++;
+   if(b.dataset.act==='minus'){cart[i].qty--;if(cart[i].qty<=0)cart.splice(i,1);}
+   if(b.dataset.act==='remove')cart.splice(i,1);
+   renderCart();
+ });
+ let currentShippingFee=80;
+ document.getElementById('cartBtn').addEventListener('click',()=>{
+   document.getElementById('cartPage').classList.add('active');
+   document.getElementById('checkoutPage').classList.remove('active');
+   document.getElementById('cartPage').scrollIntoView({behavior:'smooth'});
+ });
+ document.getElementById('continueShopping').addEventListener('click',()=>document.getElementById('officialShop').scrollIntoView({behavior:'smooth'}));
+ document.getElementById('checkoutBtn').addEventListener('click',()=>{
+   if(!cart.length){alert('購物車目前沒有商品');return;}
+   document.getElementById('cartPage').classList.remove('active');
+   document.getElementById('checkoutPage').classList.add('active');
+   document.getElementById('checkoutPage').scrollIntoView({behavior:'smooth'});
+ });
+ document.getElementById('backToCart').addEventListener('click',()=>{
+   document.getElementById('checkoutPage').classList.remove('active');
+   document.getElementById('cartPage').classList.add('active');
+ });
+ const deliveryCards=[...document.querySelectorAll('.deliveryCard')];
+ deliveryCards.forEach(c=>c.addEventListener('click',()=>{
+   deliveryCards.forEach(x=>x.classList.remove('active'));c.classList.add('active');
+   currentShippingFee=Number(c.dataset.fee)||0;
+   const isHome=c.dataset.method==='home';
+   document.getElementById('homeFields').style.display=isHome?'block':'none';
+   document.getElementById('storeFields').style.display=isHome?'none':'block';
+   renderCart();
+ }));
+ document.getElementById('checkoutForm').addEventListener('submit',e=>{
+   e.preventDefault();
+   if(!cart.length){alert('購物車目前沒有商品');return;}
+   const orderId='CX-ORD-'+Math.random().toString(36).slice(2,12).toUpperCase();
+   alert('訂單建立成功（Prototype）\\n訂單編號：'+orderId);
+ });
+ renderCart();
 })();
 </script>
 </body>
