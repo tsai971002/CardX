@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CardsX — 符文戰場卡牌交易市場</title>
+<style>
+:root{
+ --bg:#080a0d;--panel:#11151a;--panel2:#151a20;--line:#242b34;--text:#f5f7fa;--muted:#929daa;
+ --green:#24c98a;--red:#ff5f6d;--blue:#72a7ff;--chip:#1d232b;--gold:#d6b35f;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",Arial,sans-serif}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.top{position:sticky;top:0;z-index:30;background:rgba(8,10,13,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav{max-width:1260px;margin:auto;height:68px;padding:0 18px;display:flex;align-items:center;gap:22px}
+.logo{font-size:27px;font-weight:950;letter-spacing:-1.4px}.logo span{opacity:.42}
+.navlinks{display:flex;gap:18px;font-size:14px;color:var(--muted)}
+.searchTop{margin-left:auto;min-width:310px;padding:11px 13px;border-radius:11px;border:1px solid var(--line);background:var(--panel);color:white}
+.wrap{max-width:1260px;margin:auto;padding:24px 18px 70px}
+.ticker{display:flex;gap:10px;overflow:auto;padding-bottom:4px;scrollbar-width:none}.ticker::-webkit-scrollbar{display:none}
+.tick{min-width:185px;background:#0e1216;border:1px solid var(--line);border-radius:12px;padding:11px 13px}
+.tick small{color:var(--muted)}.tick b{display:block;margin-top:4px}.up{color:var(--green)}.down{color:var(--red)}
+.hero{display:grid;grid-template-columns:1.4fr .6fr;gap:16px;margin-top:16px}
+.panel{background:linear-gradient(180deg,var(--panel),#0f1217);border:1px solid var(--line);border-radius:18px}
+.heroMain{padding:28px}.eyebrow{font-size:12px;letter-spacing:1.4px;color:var(--muted)}
+h1{font-size:40px;letter-spacing:-1.5px;margin:8px 0}.sub{color:var(--muted);line-height:1.65}
+.heroRow{display:flex;align-items:end;gap:18px;flex-wrap:wrap;margin-top:20px}.index{font-size:46px;font-weight:950}
+.chart{height:155px;width:100%;margin-top:12px}.chart polyline{fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.chart path{fill:currentColor;opacity:.06}
+.sideStats{padding:22px}.stat{padding:13px 0;border-bottom:1px solid var(--line)}.stat:last-child{border-bottom:0}.stat b{display:block;font-size:23px;margin-top:3px}
+.sectionHead{display:flex;align-items:end;justify-content:space-between;margin:30px 0 13px;gap:16px}.sectionHead h2{margin:0;font-size:23px}.muted{color:var(--muted)}
+.filters{display:grid;grid-template-columns:1.15fr 1.35fr 1fr 1fr 1.5fr auto;gap:9px;margin-top:26px}
+.control{width:100%;background:var(--panel);border:1px solid var(--line);color:white;border-radius:11px;padding:12px}
+.btn{border:0;border-radius:10px;padding:12px 15px;font-weight:850}.btn.primary{background:white;color:#101216}.btn.ghost{background:var(--panel);border:1px solid var(--line);color:white}.btn.buy{background:var(--green);color:#05130d}.btn.sell{background:var(--red);color:#190407}
+.seriesChips{display:flex;gap:8px;overflow:auto;padding:12px 0 2px;scrollbar-width:none}.chip{white-space:nowrap;border:1px solid var(--line);border-radius:999px;padding:8px 11px;color:var(--muted);background:transparent}.chip.active{background:white;color:#111}
+.hotGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:15px;transition:.15s}.card:hover{border-color:#3b4652;transform:translateY(-1px)}
+.cardTop{display:flex;justify-content:space-between;gap:10px}.cardArt{width:50px;height:67px;border-radius:9px;background:linear-gradient(145deg,#222a34,#11151a);display:grid;place-items:center;font-size:26px;border:1px solid #303844}
+.cardName{font-weight:900}.code{font-size:11px;color:var(--muted);margin-top:4px}.last{font-size:11px;color:var(--muted);margin-top:12px}.price{font-size:22px;font-weight:950}.change{font-size:12px;font-weight:800}
+.spark{height:57px;width:100%;margin:7px 0}.spark polyline{fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.ba{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:9px;font-size:12px;color:var(--muted)}.ba b{color:white}
+.marketGrid{display:grid;grid-template-columns:1.35fr .65fr;gap:16px}.trade{padding:22px}.tradeTop{display:flex;justify-content:space-between;gap:16px}.bigPrice{font-size:39px;font-weight:950}
+.quoteRow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.quote{background:#0d1115;border:1px solid var(--line);border-radius:12px;padding:12px}.quote small{color:var(--muted)}.quote b{display:block;font-size:20px;margin-top:3px}
+.actionRow{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:12px}
+.sales{padding:22px}table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:11px 6px;border-bottom:1px solid var(--line)}th{color:var(--muted);font-weight:650}
+.catalog{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.catalogCard{padding:17px;background:var(--panel);border:1px solid var(--line);border-radius:15px}.catalogCard b{display:block}.catalogCard span{display:block;color:var(--muted);font-size:12px;margin-top:4px}
+.discovery{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.discover{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:18px}.discover strong{font-size:18px}.discover p{color:var(--muted);font-size:13px;line-height:1.55}
+.bottomGrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.box{padding:20px}.badge{display:inline-block;font-size:11px;padding:5px 7px;background:var(--chip);border-radius:999px;color:var(--muted)}
+.centerList{display:grid;gap:10px}.center{padding:13px;background:#0d1115;border:1px solid var(--line);border-radius:12px;display:flex;justify-content:space-between;gap:10px}
+footer{margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}
+@media(max-width:1050px){.filters{grid-template-columns:repeat(3,1fr)}.hotGrid{grid-template-columns:repeat(2,1fr)}.catalog,.discovery{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:850px){.hero,.marketGrid,.bottomGrid{grid-template-columns:1fr}.searchTop,.navlinks{display:none}.actionRow{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.wrap{padding-left:13px;padding-right:13px}.filters{grid-template-columns:1fr}.hotGrid,.catalog,.discovery{grid-template-columns:1fr}.index{font-size:36px}.tradeTop{display:block}.tradeTop>div:last-child{text-align:left!important;margin-top:15px}.actionRow{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="top">
+ <div class="nav">
+   <div class="logo">Cards<span>X</span></div>
+   <nav class="navlinks"><span>市場</span><span>卡牌圖鑑</span><span>系列</span><span>Vault</span><span>驗卡中心</span></nav>
+   <input class="searchTop" placeholder="搜尋卡名 / Card No. / Set Code">
+ </div>
+</header>
+
+<main class="wrap">
+ <div class="ticker">
+   <div class="tick"><small>Origins 指數</small><b>1,184.2 <span class="up">+3.12%</span></b></div>
+   <div class="tick"><small>Spiritforged 指數</small><b>1,061.8 <span class="up">+1.48%</span></b></div>
+   <div class="tick"><small>Unleashed 指數</small><b>988.4 <span class="down">-0.72%</span></b></div>
+   <div class="tick"><small>異畫卡指數</small><b>1,326.7 <span class="up">+4.03%</span></b></div>
+   <div class="tick"><small>24H 成交額</small><b>NT$ 286,420</b></div>
+ </div>
+
+ <section class="hero">
+   <div class="panel heroMain">
+     <div class="eyebrow">CARDSX · RIFTBOUND MARKET</div>
+     <h1>符文戰場卡牌市場</h1>
+     <div class="sub">以「真實成交價」作為主報價，配合 Bid / Ask、市場深度、系列分類與價格走勢，讓玩家像看股票一樣看懂卡牌行情。</div>
+     <div class="heroRow"><div class="index">1,284.6</div><div class="up">▲ 2.84% 今日</div><div class="muted">CardsX Rune Index</div></div>
+     <svg class="chart up" viewBox="0 0 700 155" preserveAspectRatio="none">
+       <path d="M0 132 L45 128 L90 136 L135 116 L180 120 L225 99 L270 103 L315 83 L360 89 L405 70 L450 74 L495 54 L540 60 L585 39 L630 43 L675 22 L700 18 L700 155 L0 155 Z"></path>
+       <polyline points="0,132 45,128 90,136 135,116 180,120 225,99 270,103 315,83 360,89 405,70 450,74 495,54 540,60 585,39 630,43 675,22 700,18"></polyline>
+     </svg>
+   </div>
+   <div class="panel sideStats">
+     <div class="stat"><span class="muted">CardsX 收錄卡牌</span><b>1,256+</b></div>
+     <div class="stat"><span class="muted">今日成交筆數</span><b>148</b></div>
+     <div class="stat"><span class="muted">最高買價 Bid</span><b>即時更新</b></div>
+     <div class="stat"><span class="muted">最低賣價 Ask</span><b>即時更新</b></div>
+   </div>
+ </section>
+
+ <section>
+   <div class="sectionHead"><div><h2>找卡牌</h2><div class="muted">遊戲 → 系列 → 稀有度 → 顏色 → 卡牌類型</div></div></div>
+   <div class="filters">
+     <select class="control"><option>符文戰場 Riftbound</option></select>
+     <select class="control" id="setFilter">
+       <option value="all">全部系列</option>
+       <option value="ORG">起源 Origins</option>
+       <option value="SFD">靈魂鍛造 Spiritforged</option>
+       <option value="UNL">解放 Unleashed</option>
+       <option value="VEN">VEN</option>
+       <option value="ORGSP">起源特別版</option>
+       <option value="ARC">Arcane</option>
+       <option value="FND">基石 Foundations</option>
+     </select>
+     <select class="control"><option>全部稀有度</option><option>普通</option><option>不凡</option><option>稀有</option><option>史詩</option><option>異畫</option></select>
+     <select class="control"><option>全部顏色</option><option>紅</option><option>綠</option><option>藍</option><option>橙</option><option>紫</option><option>黃</option><option>無色</option></select>
+     <input id="cardSearch" class="control" placeholder="卡名、英文名、卡號…">
+     <button id="filterBtn" class="btn primary">搜尋</button>
+   </div>
+   <div class="seriesChips">
+     <button class="chip active" data-set="all">全部</button>
+     <button class="chip" data-set="ORG">Origins</button>
+     <button class="chip" data-set="SFD">Spiritforged</button>
+     <button class="chip" data-set="UNL">Unleashed</button>
+     <button class="chip" data-set="VEN">VEN</button>
+     <button class="chip" data-set="ORGSP">Origins Special</button>
+   </div>
+ </section>
+
+ <section>
+   <div class="sectionHead"><div><h2>熱門卡牌</h2><div class="muted">最近成交價 + 漲跌% + 走勢 + Bid / Ask</div></div><span class="badge">示意行情</span></div>
+   <div class="hotGrid" id="hotGrid">
+     <article class="card" data-set="ORG" data-search="阿璃 誘人 ahri origins">
+       <div class="cardTop"><div><div class="cardName">阿璃－誘人</div><div class="code">Origins · 異畫</div></div><div class="cardArt">🦊</div></div>
+       <div class="last">最近成交</div><div class="price">NT$ 8,280</div><div class="change up">▲ 6.70%</div>
+       <svg class="spark up" viewBox="0 0 220 57" preserveAspectRatio="none"><polyline points="0,47 22,43 44,46 66,35 88,39 110,28 132,31 154,21 176,24 198,14 220,8"></polyline></svg>
+       <div class="ba"><span>Bid <b>8,100</b></span><span>Ask <b>8,500</b></span></div>
+     </article>
+     <article class="card" data-set="SFD" data-search="犽宿 御風者 yasuo spiritforged">
+       <div class="cardTop"><div><div class="cardName">犽宿－御風者</div><div class="code">Spiritforged · 史詩</div></div><div class="cardArt">🌪️</div></div>
+       <div class="last">最近成交</div><div class="price">NT$ 4,650</div><div class="change up">▲ 3.64%</div>
+       <svg class="spark up" viewBox="0 0 220 57" preserveAspectRatio="none"><polyline points="0,43 22,42 44,37 66,40 88,31 110,34 132,27 154,23 176,25 198,17 220,13"></polyline></svg>
+       <div class="ba"><span>Bid <b>4,480</b></span><span>Ask <b>4,700</b></span></div>
+     </article>
+     <article class="card" data-set="UNL" data-search="吉茵珂絲 爆破專家 jinx unleashed">
+       <div class="cardTop"><div><div class="cardName">吉茵珂絲－爆破專家</div><div class="code">Unleashed · 異畫</div></div><div class="cardArt">💥</div></div>
+       <div class="last">最近成交</div><div class="price">NT$ 6,920</div><div class="change down">▼ 2.15%</div>
+       <svg class="spark down" viewBox="0 0 220 57" preserveAspectRatio="none"><polyline points="0,12 22,15 44,13 66,22 88,20 110,29 132,27 154,36 176,35 198,46 220,49"></polyline></svg>
+       <div class="ba"><span>Bid <b>6,700</b></span><span>Ask <b>7,020</b></span></div>
+     </article>
+     <article class="card" data-set="VEN" data-search="易大師 無極劍聖 master yi ven">
+       <div class="cardTop"><div><div class="cardName">易大師－無極劍聖</div><div class="code">VEN · 稀有</div></div><div class="cardArt">⚔️</div></div>
+       <div class="last">最近成交</div><div class="price">NT$ 2,180</div><div class="change up">▲ 1.97%</div>
+       <svg class="spark up" viewBox="0 0 220 57" preserveAspectRatio="none"><polyline points="0,44 22,39 44,42 66,36 88,38 110,32 132,31 154,26 176,28 198,20 220,18"></polyline></svg>
+       <div class="ba"><span>Bid <b>2,060</b></span><span>Ask <b>2,240</b></span></div>
+     </article>
+   </div>
+ </section>
+
+ <section>
+  <div class="sectionHead"><div><h2>單卡交易頁</h2><div class="muted">CardsX 最核心的商品頁：價格、成交、買賣深度一次看清楚</div></div></div>
+  <div class="marketGrid">
+   <div class="panel trade">
+    <div class="tradeTop">
+     <div><div class="eyebrow">RIFTBOUND · ORIGINS</div><h2 style="margin:6px 0">阿璃－誘人 · 異畫</h2><div class="muted">卡片資料 · 市場行情 · 驗證狀態</div></div>
+     <div style="text-align:right"><div class="muted">最近成交</div><div class="bigPrice">NT$ 8,280</div><div class="up">▲ NT$520 · +6.70%</div></div>
+    </div>
+    <svg class="chart up" viewBox="0 0 700 155" preserveAspectRatio="none"><path d="M0 132 L50 121 L100 127 L150 109 L200 114 L250 96 L300 102 L350 80 L400 86 L450 66 L500 70 L550 48 L600 53 L650 29 L700 18 L700 155 L0 155 Z"></path><polyline points="0,132 50,121 100,127 150,109 200,114 250,96 300,102 350,80 400,86 450,66 500,70 550,48 600,53 650,29 700,18"></polyline></svg>
+    <div class="quoteRow"><div class="quote"><small>最高 Bid</small><b>NT$ 8,100</b></div><div class="quote"><small>最低 Ask</small><b>NT$ 8,500</b></div></div>
+    <div class="actionRow"><button class="btn buy">立即買入</button><button class="btn ghost">我要出價 Bid</button><button class="btn sell">立即賣出</button><button class="btn ghost">設定 Ask</button></div>
+   </div>
+   <div class="panel sales">
+    <h3 style="margin-top:0">最近成交紀錄</h3>
+    <table><thead><tr><th>時間</th><th>價格</th><th>變動</th></tr></thead><tbody>
+     <tr><td>13:38</td><td>8,280</td><td class="up">+1.47%</td></tr>
+     <tr><td>11:05</td><td>8,160</td><td class="up">+1.12%</td></tr>
+     <tr><td>昨天</td><td>8,070</td><td class="down">-0.62%</td></tr>
+     <tr><td>8/22</td><td>8,120</td><td class="up">+2.01%</td></tr>
+     <tr><td>8/21</td><td>7,960</td><td class="up">+1.40%</td></tr>
+    </tbody></table>
+   </div>
+  </div>
+ </section>
+
+ <section>
+  <div class="sectionHead"><div><h2>依系列瀏覽</h2><div class="muted">未來新系列只要後台新增，不需重做網站</div></div></div>
+  <div class="catalog">
+   <div class="catalogCard"><b>起源 Origins</b><span>364 張 · 首發核心系列</span></div>
+   <div class="catalogCard"><b>靈魂鍛造 Spiritforged</b><span>312 張</span></div>
+   <div class="catalogCard"><b>解放 Unleashed</b><span>298 張</span></div>
+   <div class="catalogCard"><b>VEN</b><span>247 張</span></div>
+   <div class="catalogCard"><b>起源特別版</b><span>24 張</span></div>
+   <div class="catalogCard"><b>Arcane</b><span>6 張</span></div>
+   <div class="catalogCard"><b>基石 Foundations</b><span>5 張</span></div>
+   <div class="catalogCard"><b>＋ 新增系列</b><span>後台管理員功能</span></div>
+  </div>
+ </section>
+
+ <section>
+  <div class="sectionHead"><div><h2>CardsX 還要補上的前端功能</h2><div class="muted">這些我建議正式版一起做</div></div></div>
+  <div class="discovery">
+   <div class="discover"><strong>收藏清單</strong><p>玩家把持有卡加入「我的收藏」，直接看到總市值、成本與未實現損益。</p></div>
+   <div class="discover"><strong>願望清單 + 價格提醒</strong><p>追蹤特定卡牌，當 Ask 低於目標價或市場大幅波動時提醒。</p></div>
+   <div class="discover"><strong>市場深度</strong><p>單卡頁顯示多檔 Bid / Ask，而不是只顯示最高買價與最低賣價。</p></div>
+   <div class="discover"><strong>卡牌版本切換</strong><p>同一卡名可切一般、異畫、語言、特殊印刷或其他版本，避免價格混在一起。</p></div>
+  </div>
+ </section>
+
+ <section>
+  <div class="sectionHead"><div><h2>實體交易服務</h2></div></div>
+  <div class="bottomGrid">
+   <div class="panel box"><h3>CardsX Vault</h3><p class="muted">驗證後可存入 CardsX Vault，持有人可繼續掛 Ask 或接受 Bid；成交時不需要反覆寄送實體卡。</p><span class="badge">保管 · 轉售 · 提領</span></div>
+   <div class="panel box"><h3>官方授權驗卡中心</h3><div class="centerList"><div class="center"><span>北部 · 台北</span><span class="muted">合作店家待簽約</span></div><div class="center"><span>中部 · 台中</span><span class="muted">合作店家待簽約</span></div><div class="center"><span>南部 · 高雄</span><span class="muted">合作店家待簽約</span></div></div></div>
+  </div>
+ </section>
+
+ <footer>CardsX Frontend Prototype v3 · 卡牌名稱與系列分類僅作產品介面示意；正式使用卡圖、商標與官方資料前需確認授權與資料使用權。</footer>
+</main>
+<script>
+(()=>{
+ const setFilter=document.getElementById('setFilter');
+ const cardSearch=document.getElementById('cardSearch');
+ const cards=[...document.querySelectorAll('#hotGrid .card')];
+ const chips=[...document.querySelectorAll('.chip')];
+ function apply(){
+   const s=setFilter.value,q=cardSearch.value.trim().toLowerCase();
+   cards.forEach(c=>c.style.display=((s==='all'||c.dataset.set===s)&&(!q||c.dataset.search.toLowerCase().includes(q)))?'block':'none');
+ }
+ document.getElementById('filterBtn').addEventListener('click',apply);
+ setFilter.addEventListener('change',apply);cardSearch.addEventListener('input',apply);
+ chips.forEach(ch=>ch.addEventListener('click',()=>{
+   chips.forEach(x=>x.classList.remove('active'));ch.classList.add('active');
+   setFilter.value=ch.dataset.set;apply();
+ }));
+})();
+</script>
+</body>
+</html>
