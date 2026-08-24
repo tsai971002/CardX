@@ -1,9 +1,23 @@
-# CardsX Frontend v10
+# CardsX Multi-page v13
 
-UI 調整：
-- 客服中心移到頂部主導覽，改成明顯按鈕
-- 聯絡我們移到頂部主導覽，改成明顯按鈕
-- 右下角新增固定「聯絡客服」浮動按鈕
-- 移除原本不明顯的頁尾客服入口
+真正多頁版本：
+- /index.html
+- /market.html
+- /cards.html
+- /series.html
+- /shop.html
+- /vault.html
+- /verify.html
+- /support.html
+- /contact.html
+- /cart.html
+- /checkout.html
+- /login.html
+- /register.html
+- /cards/ahri-enticing.html
+- /cards/yasuo-windwalker.html
+- /cards/jinx-demolition.html
+- /cards/master-yi-wuju.html
 
-這樣桌機與手機都能更快找到客服。
+每張卡都有獨立網址，可直接分享，也支援瀏覽器上一頁/下一頁。
+Vercel 的 cleanUrls 會讓 .html 可用乾淨網址形式。
