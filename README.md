@@ -1,17 +1,14 @@
-# CardsX Frontend v3
-台灣繁中卡牌交易平台 Prototype。
+# CardsX Frontend v4
 
-新增：
-- Riftbound 系列分類架構（Origins / Spiritforged / Unleashed / VEN 等）
-- 卡名 / 系列 / 稀有度 / 顏色篩選 UI
-- 交易所式熱門卡牌 mini chart
-- 最近成交價為主報價
-- Bid / Ask
-- 單卡交易頁
-- 系列瀏覽
-- Vault
-- 北中南驗卡中心
-- 收藏、願望清單、價格提醒、市場深度等正式版功能提示
+更新：
+- 取消北中南實體合作驗卡中心
+- CardsX 驗證總部設定於高雄
+- 賣家成交後必須寄卡至總部驗證
+- 驗證通過顯示 CardsX Verified
+- 每張驗證實體卡建立唯一 CardsX ID
+- 每次成交自動產生新的隨機、不重複 Transaction ID
+- 最近成交紀錄新增：成交卡牌 / CardsX ID / 交易序號
+- 新增完整驗證流程 UI
+- 保留 Vault / Bid / Ask / 最近成交價 / 市場走勢
 
-注意：
-目前行情均為示意資料。正式使用第三方卡圖、商標或完整資料前應確認授權。
+正式後端需在資料庫對 Transaction ID 設 UNIQUE constraint，碰撞時自動重新生成。
