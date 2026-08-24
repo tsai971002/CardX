@@ -73,6 +73,34 @@ footer{margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:v
 .notice{padding:12px;border:1px solid var(--line);border-radius:12px;background:#0d1115;color:var(--muted);font-size:12px;line-height:1.5}
 @media(max-width:850px){.cartGrid{grid-template-columns:1fr}.deliveryCards{grid-template-columns:1fr}.checkoutGrid{grid-template-columns:1fr}.checkoutGrid .full{grid-column:auto}}
 
+
+.viewPage{display:none}
+.viewPage.active{display:block}
+.pageToolbar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px}
+.pageToolbarActions{display:flex;gap:8px;flex-wrap:wrap}
+.mobileStepNav{display:none}
+.supportGrid{display:grid;grid-template-columns:1.15fr .85fr;gap:16px}
+.supportThread{background:#0d1115;border:1px solid var(--line);border-radius:12px;padding:14px;min-height:180px}
+.messageBubble{max-width:85%;padding:10px 12px;border-radius:12px;margin:8px 0;font-size:13px;line-height:1.5}
+.messageUser{margin-left:auto;background:#e9eef5;color:#111}
+.messageOfficial{background:#1b222b;color:white}
+.contactGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.contactCard{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:18px}
+.contactCard strong{display:block;font-size:18px;margin-bottom:6px}
+.contactValue{font-weight:850;margin-top:8px}
+.featureGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.featureCard{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:18px}
+.featureCard button{margin-top:10px}
+@media(max-width:850px){
+ .supportGrid{grid-template-columns:1fr}
+ .contactGrid,.featureGrid{grid-template-columns:1fr 1fr}
+ .mobileStepNav{display:flex;gap:8px;justify-content:space-between;margin-top:14px}
+}
+@media(max-width:560px){
+ .contactGrid,.featureGrid{grid-template-columns:1fr}
+ .pageToolbar{align-items:flex-start}
+}
+
 @media(max-width:1050px){.filters{grid-template-columns:repeat(3,1fr)}.hotGrid{grid-template-columns:repeat(2,1fr)}.catalog,.discovery,.shopGrid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:850px){.hero,.marketGrid,.bottomGrid{grid-template-columns:1fr}.searchTop,.navlinks{display:none}.actionRow{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.wrap{padding-left:13px;padding-right:13px}.filters{grid-template-columns:1fr}.hotGrid,.catalog,.discovery,.shopGrid{grid-template-columns:1fr}.index{font-size:36px}.tradeTop{display:block}.tradeTop>div:last-child{text-align:left!important;margin-top:15px}.actionRow{grid-template-columns:1fr}}
@@ -89,6 +117,7 @@ footer{margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:v
 <a href="#officialShop" style="color:inherit;text-decoration:none">官方未開封</a>
 <a href="#vault" style="color:inherit;text-decoration:none">Vault</a>
 <a href="#verify" style="color:inherit;text-decoration:none">驗卡中心</a>
+<button type="button" id="supportNavBtn" style="background:none;border:0;color:inherit;padding:0;cursor:pointer">客服</button>
 </nav>
    <input class="searchTop" placeholder="搜尋卡名 / Card No. / Set Code">
    <button class="btn ghost" id="loginBtn" style="padding:10px 14px">登入</button>
@@ -224,13 +253,13 @@ footer{margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:v
   </div>
  </section>
 
- <section>
-  <div class="sectionHead"><div><h2>CardsX 還要補上的前端功能</h2><div class="muted">這些我建議正式版一起做</div></div></div>
-  <div class="discovery">
-   <div class="discover"><strong>收藏清單</strong><p>玩家把持有卡加入「我的收藏」，直接看到總市值、成本與未實現損益。</p></div>
-   <div class="discover"><strong>願望清單 + 價格提醒</strong><p>追蹤特定卡牌，當 Ask 低於目標價或市場大幅波動時提醒。</p></div>
-   <div class="discover"><strong>市場深度</strong><p>單卡頁顯示多檔 Bid / Ask，而不是只顯示最高買價與最低賣價。</p></div>
-   <div class="discover"><strong>卡牌版本切換</strong><p>同一卡名可切一般、異畫、語言、特殊印刷或其他版本，避免價格混在一起。</p></div>
+ <section id="features">
+  <div class="sectionHead"><div><h2>CardsX 玩家功能</h2><div class="muted">這些正式版會成為玩家帳戶的一部分</div></div></div>
+  <div class="featureGrid">
+   <div class="featureCard"><strong>收藏清單</strong><p class="muted">管理持有卡牌、成本、市值與未實現損益。</p><button class="btn ghost" type="button">查看收藏</button></div>
+   <div class="featureCard"><strong>願望清單 + 價格提醒</strong><p class="muted">追蹤指定卡牌與目標價格。</p><button class="btn ghost" type="button">設定提醒</button></div>
+   <div class="featureCard"><strong>市場深度</strong><p class="muted">顯示多檔 Bid / Ask，快速判斷買賣壓力。</p><button class="btn ghost" type="button">查看深度</button></div>
+   <div class="featureCard"><strong>卡牌版本切換</strong><p class="muted">一般、異畫、語言與特殊印刷分開報價。</p><button class="btn ghost" type="button">切換版本</button></div>
   </div>
  </section>
 
@@ -280,8 +309,11 @@ footer{margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:v
  </section>
 
  
- <section id="cartPage" class="cartPage">
-  <div class="sectionHead"><div><h2>購物車</h2><div class="muted">確認商品後進入配送與付款資料</div></div><button class="btn ghost" id="continueShopping">繼續購物</button></div>
+ <section id="cartPage" class="cartPage viewPage">
+  <div class="pageToolbar">
+   <div><h2 style="margin:0">購物車</h2><div class="muted">確認商品後進入配送與付款資料</div></div>
+   <div class="pageToolbarActions"><button class="btn ghost" id="continueShopping">← 繼續購物</button><button class="btn ghost" id="closeCart">✕ 關閉</button></div>
+  </div>
   <div class="cartGrid">
    <div class="panel">
     <div id="cartItems">
@@ -299,8 +331,11 @@ footer{margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:v
   </div>
  </section>
 
- <section id="checkoutPage" class="cartPage">
-  <div class="sectionHead"><div><h2>結帳</h2><div class="muted">填寫收件與配送資料</div></div><button class="btn ghost" id="backToCart">返回購物車</button></div>
+ <section id="checkoutPage" class="cartPage viewPage">
+  <div class="pageToolbar">
+   <div><h2 style="margin:0">結帳</h2><div class="muted">填寫收件與配送資料</div></div>
+   <div class="pageToolbarActions"><button class="btn ghost" id="backToCart">← 上一步</button><button class="btn ghost" id="closeCheckout">✕ 關閉</button></div>
+  </div>
   <div class="cartGrid">
    <div class="panel box">
     <h3 style="margin-top:0">收件人資料</h3>
@@ -354,6 +389,51 @@ footer{margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:v
     <div class="summaryRow total"><span>應付總額</span><span id="checkoutTotal">NT$ 0</span></div>
    </div>
   </div>
+  <div class="mobileStepNav"><button class="btn ghost" type="button" id="mobilePrev">← 上一步</button><button class="btn primary" type="button" id="mobileNext">下一步 →</button></div>
+ </section>
+
+ <section id="supportPage" class="viewPage" style="margin-top:24px">
+  <div class="pageToolbar">
+   <div><h2 style="margin:0">CardsX 客服中心</h2><div class="muted">透過站內信向官方詢問交易、驗證、物流、付款或帳戶問題</div></div>
+   <div class="pageToolbarActions"><button class="btn ghost" id="closeSupport">✕ 關閉</button></div>
+  </div>
+  <div class="supportGrid">
+   <div class="panel box">
+    <h3 style="margin-top:0">新增客服問題</h3>
+    <form id="supportForm">
+     <label class="muted" style="font-size:12px">問題類型</label>
+     <select class="control" id="supportCategory" style="margin:6px 0 12px">
+      <option>交易問題</option><option>CardsX 驗證</option><option>Vault</option><option>物流 / 收件</option><option>付款 / 退款</option><option>帳戶問題</option><option>其他</option>
+     </select>
+     <label class="muted" style="font-size:12px">交易序號（選填）</label>
+     <input class="control" id="supportTx" placeholder="CX-TX-XXXXXXXXXX" style="margin:6px 0 12px">
+     <label class="muted" style="font-size:12px">CardsX ID（選填）</label>
+     <input class="control" id="supportCardId" placeholder="CX-CARD-XXXXXXXX" style="margin:6px 0 12px">
+     <label class="muted" style="font-size:12px">留言內容</label>
+     <textarea class="control" id="supportMessage" required placeholder="請描述你遇到的問題…" style="margin:6px 0 12px;min-height:120px;resize:vertical"></textarea>
+     <button class="btn primary" type="submit">送出站內信</button>
+    </form>
+   </div>
+   <div class="panel box">
+    <h3 style="margin-top:0">我的客服訊息</h3>
+    <div class="supportThread" id="supportThread">
+     <div class="messageBubble messageOfficial">CardsX 客服：您好，如有交易問題，可以附上 Transaction ID，會比較快查到紀錄。</div>
+    </div>
+   </div>
+  </div>
+ </section>
+
+ <section id="contactPage" class="viewPage" style="margin-top:24px">
+  <div class="pageToolbar">
+   <div><h2 style="margin:0">聯絡 CardsX</h2><div class="muted">正式官方聯絡方式會在品牌帳號建立後更新</div></div>
+   <div class="pageToolbarActions"><button class="btn ghost" id="closeContact">✕ 關閉</button></div>
+  </div>
+  <div class="contactGrid">
+   <div class="contactCard"><strong>LINE 官方帳號</strong><div class="muted">客服與活動通知</div><div class="contactValue">待設定</div><button class="btn ghost" type="button" disabled style="margin-top:10px">尚未啟用</button></div>
+   <div class="contactCard"><strong>Email</strong><div class="muted">一般客服 / 商務合作</div><div class="contactValue">待設定官方信箱</div><button class="btn ghost" type="button" disabled style="margin-top:10px">尚未啟用</button></div>
+   <div class="contactCard"><strong>X / Twitter</strong><div class="muted">最新公告與市場消息</div><div class="contactValue">待設定官方帳號</div><button class="btn ghost" type="button" disabled style="margin-top:10px">尚未啟用</button></div>
+  </div>
+  <div class="panel box" style="margin-top:14px"><h3 style="margin-top:0">CardsX 高雄總部</h3><p class="muted">驗證總部設定於高雄市。實際公司地址、客服時間與退件地址會在正式營運前公布。</p></div>
  </section>
 
  <section id="playerCenter" style="display:none">
@@ -450,7 +530,8 @@ footer{margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:v
    </div>
  </div>
 
- <footer>CardsX Frontend Prototype v8 · 卡牌名稱與系列分類僅作產品介面示意；正式使用卡圖、商標與官方資料前需確認授權與資料使用權。</footer>
+ <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:28px"><button class="btn ghost" id="footerSupportBtn">客服中心</button><button class="btn ghost" id="footerContactBtn">聯絡我們</button></div>
+ <footer>CardsX Frontend Prototype v9 · 卡牌名稱與系列分類僅作產品介面示意；正式使用卡圖、商標與官方資料前需確認授權與資料使用權。</footer>
 </main>
 <script>
 (()=>{
@@ -608,8 +689,7 @@ footer{margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:v
    const found=cart.find(x=>x.name===name);
    if(found) found.qty++; else cart.push({name,price:priceMap[name]||0,qty:1});
    renderCart();
-   document.getElementById('cartPage').classList.add('active');
-   document.getElementById('cartPage').scrollIntoView({behavior:'smooth'});
+   showView('cartPage');
  });
  document.getElementById('cartItems').addEventListener('click',e=>{
    const b=e.target.closest('button[data-act]');if(!b)return;
@@ -619,22 +699,22 @@ footer{margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:v
    if(b.dataset.act==='remove')cart.splice(i,1);
    renderCart();
  });
+
+ const homeSections=[...document.querySelectorAll('main.wrap > section:not(.viewPage)')];
+ function hideViews(){document.querySelectorAll('.viewPage').forEach(v=>v.classList.remove('active'));}
+ function showHome(){hideViews(); window.scrollTo({top:0,behavior:'smooth'});}
+ function showView(id){hideViews();const el=document.getElementById(id);el.classList.add('active');el.scrollIntoView({behavior:'smooth',block:'start'});}
  let currentShippingFee=80;
- document.getElementById('cartBtn').addEventListener('click',()=>{
-   document.getElementById('cartPage').classList.add('active');
-   document.getElementById('checkoutPage').classList.remove('active');
-   document.getElementById('cartPage').scrollIntoView({behavior:'smooth'});
- });
- document.getElementById('continueShopping').addEventListener('click',()=>document.getElementById('officialShop').scrollIntoView({behavior:'smooth'}));
+ document.getElementById('cartBtn').addEventListener('click',()=>showView('cartPage'));
+ document.getElementById('closeCart').addEventListener('click',showHome);
+ document.getElementById('closeCheckout').addEventListener('click',showHome);
+ document.getElementById('continueShopping').addEventListener('click',()=>{hideViews();document.getElementById('officialShop').scrollIntoView({behavior:'smooth'});});
  document.getElementById('checkoutBtn').addEventListener('click',()=>{
    if(!cart.length){alert('購物車目前沒有商品');return;}
-   document.getElementById('cartPage').classList.remove('active');
-   document.getElementById('checkoutPage').classList.add('active');
-   document.getElementById('checkoutPage').scrollIntoView({behavior:'smooth'});
+   showView('checkoutPage');
  });
  document.getElementById('backToCart').addEventListener('click',()=>{
-   document.getElementById('checkoutPage').classList.remove('active');
-   document.getElementById('cartPage').classList.add('active');
+   showView('cartPage');
  });
  const deliveryCards=[...document.querySelectorAll('.deliveryCard')];
  deliveryCards.forEach(c=>c.addEventListener('click',()=>{
@@ -651,6 +731,35 @@ footer{margin-top:36px;padding-top:22px;border-top:1px solid var(--line);color:v
    const orderId='CX-ORD-'+Math.random().toString(36).slice(2,12).toUpperCase();
    alert('訂單建立成功（Prototype）\\n訂單編號：'+orderId);
  });
+ // Mobile checkout navigation
+ document.getElementById('mobilePrev').addEventListener('click',()=>showView('cartPage'));
+ document.getElementById('mobileNext').addEventListener('click',()=>document.getElementById('checkoutForm').requestSubmit());
+
+ // Support center / contact
+ const supportButtons=['supportNavBtn','footerSupportBtn'];
+ supportButtons.forEach(id=>document.getElementById(id)?.addEventListener('click',()=>showView('supportPage')));
+ document.getElementById('footerContactBtn').addEventListener('click',()=>showView('contactPage'));
+ document.getElementById('closeSupport').addEventListener('click',showHome);
+ document.getElementById('closeContact').addEventListener('click',showHome);
+
+ document.getElementById('supportForm').addEventListener('submit',e=>{
+   e.preventDefault();
+   const msg=document.getElementById('supportMessage').value.trim();
+   if(!msg)return;
+   const cat=document.getElementById('supportCategory').value;
+   const tx=document.getElementById('supportTx').value.trim();
+   const cardId=document.getElementById('supportCardId').value.trim();
+   const bubble=document.createElement('div');
+   bubble.className='messageBubble messageUser';
+   bubble.innerHTML=`<b>${cat}</b>${tx?`<br>交易序號：${tx}`:''}${cardId?`<br>CardsX ID：${cardId}`:''}<br>${msg.replace(/[<>]/g,'')}`;
+   document.getElementById('supportThread').appendChild(bubble);
+   const reply=document.createElement('div');
+   reply.className='messageBubble messageOfficial';
+   reply.textContent='CardsX 客服：已收到你的留言（Prototype）。正式版會建立客服工單並透過站內通知回覆。';
+   setTimeout(()=>document.getElementById('supportThread').appendChild(reply),500);
+   e.target.reset();
+ });
+
  renderCart();
 })();
 </script>
